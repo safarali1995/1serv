@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "600928974715",
+    "project_id": "yakservices-e1e6b",
+    "storage_bucket": "yakservices-e1e6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600928974715:android:b75a704d4c54fcf20d2fde",
+        "android_client_info": {
+          "package_name": "com.flutterflow.yakservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600928974715-5on7popc57frlfk6ob98a3bprnirspdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9gLLllwvIn5k7KgeV2UXYZaq15ccrmDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600928974715-5on7popc57frlfk6ob98a3bprnirspdf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "600928974715-ll4sem7efqhvpdds1gri5vde96v12v3r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.yakservices"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
