@@ -5,7 +5,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../test_cart/test_cart_widget.dart';
 import '../custom_code/actions/index.dart' as actions;
-import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +25,7 @@ class FoodItemBottomSheetWidget extends StatefulWidget {
   final String foodDescrpModal;
   final int foodPriceModal;
   final int foodID;
-  final int existingQuantityXano;
+  final dynamic existingQuantityXano;
 
   @override
   _FoodItemBottomSheetWidgetState createState() =>
@@ -34,9 +33,9 @@ class FoodItemBottomSheetWidget extends StatefulWidget {
 }
 
 class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
+  dynamic getCounterSpecFood;
   int cartTotal;
   int countControllerValue;
-  int getCounterSpecFood;
 
   @override
   Widget build(BuildContext context) {
@@ -193,8 +192,10 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
                                   fontSize: 16,
                                 ),
                               ),
-                              count: countControllerValue ??= functions
-                                  .getQuantityFoodItem(widget.foodNameModal),
+                              count: countControllerValue ??= getJsonField(
+                                widget.existingQuantityXano,
+                                r'''$.food_quan''',
+                              ),
                               updateCount: (count) =>
                                   setState(() => countControllerValue = count),
                               stepSize: 1,
@@ -317,9 +318,10 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
                               ),
                         ),
                         Text(
-                          functions
-                              .getTotalCostFoodItem(widget.foodNameModal)
-                              .toString(),
+                          getJsonField(
+                            widget.existingQuantityXano,
+                            r'''$.food_price''',
+                          ).toString(),
                           style: FlutterFlowTheme.of(context).title3.override(
                                 fontFamily: 'San Franciso New',
                                 color: FlutterFlowTheme.of(context)

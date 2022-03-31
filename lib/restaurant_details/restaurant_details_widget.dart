@@ -6,7 +6,6 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../restaurant_info_page/restaurant_info_page_widget.dart';
 import '../test_cart/test_cart_widget.dart';
 import '../custom_code/actions/index.dart' as actions;
-import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,8 +46,9 @@ class RestaurantDetailsWidget extends StatefulWidget {
 }
 
 class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
+  ApiCallResponse outputAPIJsonPriceQuan;
   ApiCallResponse outputCartXano;
-  int passedQuantity;
+  dynamic passedQuantity;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -416,6 +416,16 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                                                         r'''$.food_name''',
                                                       ).toString(),
                                                     );
+                                                    outputAPIJsonPriceQuan =
+                                                        await GetItemInListCall
+                                                            .call(
+                                                      foodNameBSheet:
+                                                          getJsonField(
+                                                        fooditemsItem,
+                                                        r'''$.food_name''',
+                                                      ).toString(),
+                                                      forBottomSheet: true,
+                                                    );
                                                     await showModalBottomSheet(
                                                       isScrollControlled: true,
                                                       backgroundColor:
@@ -461,7 +471,9 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                                                                 r'''$.id''',
                                                               ),
                                                               existingQuantityXano:
-                                                                  passedQuantity,
+                                                                  (outputAPIJsonPriceQuan
+                                                                          ?.jsonBody ??
+                                                                      ''),
                                                             ),
                                                           ),
                                                         );
@@ -697,62 +709,61 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if ((functions.cartComponentVisibility()) > 0)
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(1, 1, 1, 1),
-                                child: InkWell(
-                                  onTap: () async {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TestCartWidget(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      borderRadius: BorderRadius.circular(10),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(1, 1, 1, 1),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TestCartWidget(),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10, 10, 10, 10),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                'Корзина',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .title2
-                                                        .override(
-                                                          fontFamily:
-                                                              'San Franciso New',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          useGoogleFonts: false,
-                                                        ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                  );
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 10, 10, 10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              'Корзина',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .title2
+                                                      .override(
+                                                        fontFamily:
+                                                            'San Franciso New',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        useGoogleFonts: false,
+                                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
+                            ),
                           ],
                         ),
                       ),

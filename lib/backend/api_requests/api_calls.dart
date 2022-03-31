@@ -61,13 +61,19 @@ class AddItemToCartCall {
 }
 
 class GetItemInListCall {
-  static Future<ApiCallResponse> call() {
+  static Future<ApiCallResponse> call({
+    String foodNameBSheet = '',
+    bool forBottomSheet = false,
+  }) {
     return ApiManager.instance.makeApiCall(
       callName: 'Get Item in List',
       apiUrl: 'https://xqe6-qgw3-z0sx.n7.xano.io/api:qcpA0em5/cart',
       callType: ApiCallType.GET,
       headers: {},
-      params: {},
+      params: {
+        'food_name_bSheet': foodNameBSheet,
+        'forBottomSheet': forBottomSheet,
+      },
       returnBody: true,
     );
   }
