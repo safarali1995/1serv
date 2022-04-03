@@ -1,4 +1,3 @@
-import '../backend/api_requests/api_calls.dart';
 import '../flutter_flow/flutter_flow_count_controller.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -17,7 +16,7 @@ class FoodItemBottomSheetWidget extends StatefulWidget {
     this.foodDescrpModal,
     this.foodPriceModal,
     this.foodID,
-    this.existingQuantityXano,
+    this.jsonResBottomSheet,
   }) : super(key: key);
 
   final String restImafeModal;
@@ -25,7 +24,7 @@ class FoodItemBottomSheetWidget extends StatefulWidget {
   final String foodDescrpModal;
   final int foodPriceModal;
   final int foodID;
-  final dynamic existingQuantityXano;
+  final dynamic jsonResBottomSheet;
 
   @override
   _FoodItemBottomSheetWidgetState createState() =>
@@ -116,14 +115,20 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 10, 0, 0),
               child: Text(
-                widget.foodNameModal,
+                getJsonField(
+                  widget.jsonResBottomSheet,
+                  r'''$.food_name''',
+                ).toString(),
                 style: FlutterFlowTheme.of(context).title1,
               ),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 0),
               child: Text(
-                widget.foodDescrpModal,
+                getJsonField(
+                  widget.jsonResBottomSheet,
+                  r'''$.food_descrp''',
+                ).toString(),
                 style: FlutterFlowTheme.of(context).subtitle1,
               ),
             ),
@@ -140,7 +145,10 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(15, 5, 0, 0),
                         child: Text(
-                          '${widget.foodPriceModal.toString()}c',
+                          '${getJsonField(
+                            widget.jsonResBottomSheet,
+                            r'''$.food_price''',
+                          ).toString()}c',
                           style: FlutterFlowTheme.of(context).title2,
                         ),
                       ),
@@ -192,10 +200,7 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
                                   fontSize: 16,
                                 ),
                               ),
-                              count: countControllerValue ??= getJsonField(
-                                widget.existingQuantityXano,
-                                r'''$.food_quan''',
-                              ),
+                              count: countControllerValue ??= 1,
                               updateCount: (count) =>
                                   setState(() => countControllerValue = count),
                               stepSize: 1,
@@ -285,14 +290,26 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 0),
               child: InkWell(
                 onTap: () async {
-                  await AddItemToCartCall.call(
-                    userId: 13,
-                    foodNameSoon: widget.foodNameModal,
-                    foodPriceSoon: widget.foodPriceModal,
-                    foodQuanSoon: countControllerValue,
+                  await actions.addToCartCA(
+                    context,
+                    getJsonField(
+                      widget.jsonResBottomSheet,
+                      r'''$.id''',
+                    ),
+                    getJsonField(
+                      widget.jsonResBottomSheet,
+                      r'''$.food_name''',
+                    ).toString(),
+                    countControllerValue,
+                    getJsonField(
+                      widget.jsonResBottomSheet,
+                      r'''$.food_price''',
+                    ),
+                    getJsonField(
+                      widget.jsonResBottomSheet,
+                      r'''$.food_image.url''',
+                    ).toString(),
                   );
-                  setState(() =>
-                      FFAppState().cartOnlyPrices.add(widget.foodPriceModal));
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -318,10 +335,7 @@ class _FoodItemBottomSheetWidgetState extends State<FoodItemBottomSheetWidget> {
                               ),
                         ),
                         Text(
-                          getJsonField(
-                            widget.existingQuantityXano,
-                            r'''$.food_price''',
-                          ).toString(),
+                          '# c',
                           style: FlutterFlowTheme.of(context).title3.override(
                                 fontFamily: 'San Franciso New',
                                 color: FlutterFlowTheme.of(context)

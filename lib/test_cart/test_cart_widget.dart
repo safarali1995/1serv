@@ -1,8 +1,8 @@
-import '../backend/api_requests/api_calls.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TestCartWidget extends StatefulWidget {
@@ -18,19 +18,7 @@ class TestCartWidget extends StatefulWidget {
 }
 
 class _TestCartWidgetState extends State<TestCartWidget> {
-  ApiCallResponse getCartItemsOnLoad;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      getCartItemsOnLoad = await GetItemInListCall.call();
-      setState(() =>
-          FFAppState().xanoItemFromCart = (getCartItemsOnLoad?.jsonBody ?? ''));
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,19 +63,13 @@ class _TestCartWidgetState extends State<TestCartWidget> {
                 ),
                 Builder(
                   builder: (context) {
-                    final itemFoodCart = (getJsonField(
-                              FFAppState().xanoItemFromCart,
-                              r'''$''',
-                            )?.toList() ??
-                            [])
-                        .take(5)
-                        .toList();
+                    final cartItems =
+                        (FFAppState().cart?.toList() ?? []).take(5).toList();
                     return Column(
                       mainAxisSize: MainAxisSize.max,
-                      children: List.generate(itemFoodCart.length,
-                          (itemFoodCartIndex) {
-                        final itemFoodCartItem =
-                            itemFoodCart[itemFoodCartIndex];
+                      children:
+                          List.generate(cartItems.length, (cartItemsIndex) {
+                        final cartItemsItem = cartItems[cartItemsIndex];
                         return Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 15, 10),
                           child: Container(
@@ -117,7 +99,10 @@ class _TestCartWidgetState extends State<TestCartWidget> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                            'https://picsum.photos/seed/484/600',
+                                            getJsonField(
+                                              cartItemsItem,
+                                              r'''$.foodImage''',
+                                            ),
                                             width: 65,
                                             height: 65,
                                             fit: BoxFit.cover,
@@ -140,8 +125,8 @@ class _TestCartWidgetState extends State<TestCartWidget> {
                                                   0, 0, 0, 15),
                                           child: Text(
                                             getJsonField(
-                                              itemFoodCartItem,
-                                              r'''$.food_name''',
+                                              cartItemsItem,
+                                              r'''$.foodName''',
                                             ).toString(),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1,
@@ -149,8 +134,8 @@ class _TestCartWidgetState extends State<TestCartWidget> {
                                         ),
                                         Text(
                                           getJsonField(
-                                            itemFoodCartItem,
-                                            r'''$.food_quan''',
+                                            cartItemsItem,
+                                            r'''$.foodQuantity''',
                                           ).toString().maybeHandleOverflow(
                                               maxChars: 15),
                                           style: FlutterFlowTheme.of(context)
@@ -163,13 +148,83 @@ class _TestCartWidgetState extends State<TestCartWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        getJsonField(
-                                          itemFoodCartItem,
-                                          r'''$.food_price''',
-                                        ).toString(),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1,
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 5),
+                                        child: Text(
+                                          '#c',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 0, 5, 0),
+                                            child: InkWell(
+                                              onTap: () async {
+                                                await actions.decrementFoodItem(
+                                                  getJsonField(
+                                                    cartItemsItem,
+                                                    r'''$.foodQuantity''',
+                                                  ),
+                                                  getJsonField(
+                                                    cartItemsItem,
+                                                    r'''$.foodName''',
+                                                  ).toString(),
+                                                );
+                                              },
+                                              child: FaIcon(
+                                                FontAwesomeIcons.minus,
+                                                color: Colors.black,
+                                                size: 22,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            getJsonField(
+                                              cartItemsItem,
+                                              r'''$.foodQuantity''',
+                                            ).toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily:
+                                                      'San Franciso New',
+                                                  fontSize: 16,
+                                                  useGoogleFonts: false,
+                                                ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    5, 0, 0, 0),
+                                            child: InkWell(
+                                              onTap: () async {
+                                                await actions.incrementFoodItem(
+                                                  getJsonField(
+                                                    cartItemsItem,
+                                                    r'''$.foodQuantity''',
+                                                  ),
+                                                  getJsonField(
+                                                    cartItemsItem,
+                                                    r'''$.foodName''',
+                                                  ).toString(),
+                                                );
+                                              },
+                                              child: FaIcon(
+                                                FontAwesomeIcons.plus,
+                                                color: Colors.black,
+                                                size: 22,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

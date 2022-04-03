@@ -1,1 +1,1 @@
-export 'custom_chip_categ.dart' show CustomChipCateg;
+export 'custom_counter_widget.dart' show CustomCounterWidget;

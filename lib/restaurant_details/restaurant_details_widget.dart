@@ -5,7 +5,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../restaurant_info_page/restaurant_info_page_widget.dart';
 import '../test_cart/test_cart_widget.dart';
-import '../custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,9 +45,6 @@ class RestaurantDetailsWidget extends StatefulWidget {
 }
 
 class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
-  ApiCallResponse outputAPIJsonPriceQuan;
-  ApiCallResponse outputCartXano;
-  dynamic passedQuantity;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -321,11 +317,6 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                         ],
                       ),
                     ),
-                    Divider(
-                      thickness: 1,
-                      indent: 15,
-                      color: Color(0x73B6B6B6),
-                    ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 50),
                       child: FutureBuilder<ApiCallResponse>(
@@ -400,32 +391,6 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                                                     fooditems[fooditemsIndex];
                                                 return InkWell(
                                                   onTap: () async {
-                                                    outputCartXano =
-                                                        await GetItemInListCall
-                                                            .call();
-                                                    setState(() => FFAppState()
-                                                            .itemCounterListState =
-                                                        (outputCartXano
-                                                                ?.jsonBody ??
-                                                            ''));
-                                                    passedQuantity =
-                                                        await actions
-                                                            .itemCounterState(
-                                                      getJsonField(
-                                                        fooditemsItem,
-                                                        r'''$.food_name''',
-                                                      ).toString(),
-                                                    );
-                                                    outputAPIJsonPriceQuan =
-                                                        await GetItemInListCall
-                                                            .call(
-                                                      foodNameBSheet:
-                                                          getJsonField(
-                                                        fooditemsItem,
-                                                        r'''$.food_name''',
-                                                      ).toString(),
-                                                      forBottomSheet: true,
-                                                    );
                                                     await showModalBottomSheet(
                                                       isScrollControlled: true,
                                                       backgroundColor:
@@ -470,17 +435,13 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                                                                 fooditemsItem,
                                                                 r'''$.id''',
                                                               ),
-                                                              existingQuantityXano:
-                                                                  (outputAPIJsonPriceQuan
-                                                                          ?.jsonBody ??
-                                                                      ''),
+                                                              jsonResBottomSheet:
+                                                                  fooditemsItem,
                                                             ),
                                                           ),
                                                         );
                                                       },
                                                     );
-
-                                                    setState(() {});
                                                   },
                                                   child: Column(
                                                     mainAxisSize:
@@ -532,6 +493,14 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget> {
                                                                         MainAxisSize
                                                                             .max,
                                                                     children: [
+                                                                      Divider(
+                                                                        thickness:
+                                                                            1,
+                                                                        indent:
+                                                                            15,
+                                                                        color: Color(
+                                                                            0x73B6B6B6),
+                                                                      ),
                                                                       Container(
                                                                         width:
                                                                             6,

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 Future<dynamic> itemCounterState(String foodName) async {
   // Add your function code here!
   int defaultQuan = 1;
-  var getItemCounter = FFAppState().itemCounterListState;
+  var getItemCounter = FFAppState().cart;
   var foundQuan = getItemCounter.firstWhere(
     (element) => element['food_name'] == foodName,
     orElse: (() => defaultQuan),
@@ -19,6 +19,6 @@ Future<dynamic> itemCounterState(String foodName) async {
   if (foundQuan == 1) {
     return defaultQuan;
   } else {
-    return foundQuan['food_quan'];
+    return foundQuan['initQuan']++;
   }
 }

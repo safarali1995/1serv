@@ -38,10 +38,10 @@ class MenuListAPICall {
 
 class AddItemToCartCall {
   static Future<ApiCallResponse> call({
-    int userId,
-    String foodNameSoon = '',
-    int foodPriceSoon,
-    int foodQuanSoon,
+    int userId = 13,
+    int foodNameSoon = 1,
+    int foodPriceSoon = 55,
+    int foodQuanSoon = 2,
   }) {
     return ApiManager.instance.makeApiCall(
       callName: 'Add Item to Cart',
@@ -74,6 +74,35 @@ class GetItemInListCall {
         'food_name_bSheet': foodNameBSheet,
         'forBottomSheet': forBottomSheet,
       },
+      returnBody: true,
+    );
+  }
+}
+
+class EditItemCounterAddCall {
+  static Future<ApiCallResponse> call({
+    int cartId,
+    int userId,
+    int foodNameSoon,
+    int foodPriceSoon,
+    int foodQuanSoon,
+    int incerementAdd,
+  }) {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Edit Item CounterAdd',
+      apiUrl:
+          'https://xqe6-qgw3-z0sx.n7.xano.io/api:qcpA0em5/Edit_Cart_with_Counter',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {
+        'cart_id': cartId,
+        'user_id': userId,
+        'food_name_soon': foodNameSoon,
+        'food_price_soon': foodPriceSoon,
+        'food_quan_soon': foodQuanSoon,
+        'incerement_add': incerementAdd,
+      },
+      bodyType: BodyType.JSON,
       returnBody: true,
     );
   }
